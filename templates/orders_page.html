@@ -22,34 +22,35 @@
   </head>
   <body>
     <nav class="navbar navbar-dark bg-dark">
-        <a class="navbar-brand" href="{% url 'home' %}">LitShop</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            {% if user.is_authenticated%}
-            <li class="nav-item {% block login_navbar %} {% endblock %}">
-              <a class="nav-link" href="" >welcome {{user.first_name}}</a> 
-            </li>
-            <li class="nav-item ">
-            <a class="nav-item nav-link active" href="{% url 'order' user.username%}">Orders <span class="sr-only">(current)</span></a>
-            <form method="post" action="{% url 'logoutuser' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-dark btn-sm">Log out</button>
-            </form>
-            </li>
-            
-            {% else %}
-            <li class="nav-item ">
-              <a class="nav-link" href="login">login</a> 
-            </li>
-            <a class="nav-item nav-link" href="#">Features</a>
-            {% comment %} <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a> {% endcomment %}
-            {% endif %}
-          </div>
+      <a class="navbar-brand" href="{% url 'home' %}">LitShop</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          {% if user.is_authenticated%}
+          <li class="nav-item {% block login_navbar %} {% endblock %}">
+            <a class="nav-link" href="{% url 'account'%}" >welcome {{user.first_name}}</a> 
+          </li>
+          <li class="nav-item ">
+          <a class="nav-item nav-link active" href="{% url 'order' user.username%}">Orders <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link active" href="{% url 'nfts' %}">Your warrant nfts <span class="sr-only">(current)</span></a>
+          <form method="post" action="{% url 'logoutuser' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-dark btn-sm">Log out</button>
+          </form>
+          </li>
+          
+          {% else %}
+          <li class="nav-item ">
+            <a class="nav-link" href="login">login</a> 
+          </li>
+          <a class="nav-item nav-link" href="#">Features</a>
+          {% comment %} <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a> {% endcomment %}
+          {% endif %}
         </div>
-      </nav>
+      </div>
+    </nav>
     <h1 class="text-center"> Orders </h1>
     <div class="container">
         <div class="row mt-20">

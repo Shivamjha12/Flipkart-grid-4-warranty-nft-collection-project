@@ -51,22 +51,29 @@
           </div>
         </div>
       </nav>
-    <h1 class="text-center"> Products </h1>
+    <h1 class="text-center"> Your profile </h1>
     <div class="container">
         <div class="row mt-20">
-        {% for i in products_list %}
-        <div class="card h-60" style="width: 15rem;">
-            <img src="{{ i.img }}" class="card-img-top w-50 p-2" alt="...">
             <div class="card-body">
-            <h5 class="card-title">{{ i.title|slice:'15' }}..</h5>
-            <p class="card-text">{{ i.desc|slice:'30' }}..</p>
-            <a href="product/{{i.product_id}}" class="btn btn-primary">Buy now</a>
-            </div>
-        </div>
-        <br>
-        {% endfor%}
+            <h5 class="card-title"> {{ user.first_name }} {{ user.last_name }}</h5>
+            <h5 class="card-title">Your Username -> {{ user.username }}</h5>
+            <h5 class="card-title">Your Email -> {{ user.email }}</h5>
         </div>
     </div>
+
+    <h4> Your most recent order </h4>
+        <div class="row mt-20">
+            <div class="card h-10" style=" height:10rem width: 100rem;">
+                <img src="{{ ord.product_buyed.img }}" class="card-img-top w-50 p-2" alt="...">
+                <div class="card-body">
+                <h5 class="card-title">{{ ord.product_buyed|slice:'30' }}..</h5>
+                <p class="card-text">Your order id is -> {{ ord.order_id }}</p>
+                <a href="product/{{ ord.product_buyed.product_id }}" class="btn btn-primary">Check</a>
+            </div>
+        </div>
+            <br>
+        <br>
+        
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

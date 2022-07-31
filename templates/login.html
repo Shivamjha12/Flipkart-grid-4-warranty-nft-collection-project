@@ -99,10 +99,11 @@
           <div class="navbar-nav">
             {% if user.is_authenticated%}
             <li class="nav-item {% block login_navbar %} {% endblock %}">
-              <a class="nav-link" href="" >welcome {{user.first_name}}</a> 
+              <a class="nav-link" href="{% url 'account'%}" >welcome {{user.first_name}}</a> 
             </li>
             <li class="nav-item ">
             <a class="nav-item nav-link active" href="{% url 'order' user.username%}">Orders <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link active" href="{% url 'nfts' %}">Your warrant nfts <span class="sr-only">(current)</span></a>
             <form method="post" action="{% url 'logoutuser' %}">
             {% csrf_token %}
             <button type="submit" class="btn btn-dark btn-sm">Log out</button>

@@ -51,21 +51,16 @@
           </div>
         </div>
       </nav>
-    <h1 class="text-center"> Products </h1>
-    <div class="container">
+      <h1 class="text-center">  Your Product details saved on Polygon testnet nft</h1>
+      <div class="container">
         <div class="row mt-20">
-        {% for i in products_list %}
-        <div class="card h-60" style="width: 15rem;">
-            <img src="{{ i.img }}" class="card-img-top w-50 p-2" alt="...">
             <div class="card-body">
-            <h5 class="card-title">{{ i.title|slice:'15' }}..</h5>
-            <p class="card-text">{{ i.desc|slice:'30' }}..</p>
-            <a href="product/{{i.product_id}}" class="btn btn-primary">Buy now</a>
+              {% for key, value in context.items %}
+            <h5 class="card-title">{{value}}</h5>
+            <br>
+            {% endfor %}
             </div>
-        </div>
-        <br>
-        {% endfor%}
-        </div>
+          
     </div>
 
     <!-- Optional JavaScript -->

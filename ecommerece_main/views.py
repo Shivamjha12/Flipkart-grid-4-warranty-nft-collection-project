@@ -1,3 +1,5 @@
+from asyncio.windows_events import NULL
+from pydoc import plain
 from django.forms.forms import Form
 from django.core.paginator import *
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
@@ -18,9 +20,34 @@ from .nft_collection import nft_collection
 from thirdweb.types.nft import NFTMetadataInput
 # Create your views here.
 
+def profile(request):
+    p = orders.objects.filter(user=request.user)
+    l=len(p)
+    print(l,",,,,,,,,,,,,,,,,,,,,,,,,,<<<<<<<<<<<<<<<<<<<<")
+    if(l==0):
+        ord = orders.objects.filter(user=request.user)
+    else:
+        ord = orders.objects.filter(user=request.user)[l-1]
+    print(ord)
+    return render(request, 'user_page.html',{'ord':ord})
 def nftinfo(request):
     x=  nfts.objects.filter(user=request.user)
+    # nt = x.values_list('token_id', flat=True)    
     return render(request, "nfts.html",{'x':x})
+
+def nftdetails(request,tokenid):
+    nft = nft_collection.get(tokenid)
+    plain_data = str(nft)[38:-54]
+    nfte = plain_data.split(',') 
+    print(nfte)
+    context = {
+        
+    }
+    for i in range(len(nfte)):
+        print(nfte[i]," <-----")
+        context[i]=nfte[i]
+    print(context)
+    return render(request, "nfts_details.html",{'context':context})
 
 def home(request):
     products_list = products.objects.all()
@@ -73,14 +100,15 @@ def product_page(request,product_id):
     product = products.objects.get(product_id=product_id)
     # print("xxxxxxxxxxxxxxxxx", product.title)
     if request.method=="POST":
-        # print("xxxxxxxxxxxxxxxxx", product.title)
         product_buy=orders.objects.create(user=request.user, product_buyed=product)
         product_buy.save()
+        date = str(product_buy.ordered_date)
+        datee = date[0:10]
         p_id = product_buy.order_id
-        name_nft = str(request.user) + " buyed " + str(product.title)
-        description_nft = " The user " + str(request.user) + " is buyed " + str(product.title) + " and product id of this product is " + str(p_id) + " with " + str(product.warranty_in_months) + " months and buyed on " + str(product_buy.ordered_date)
+        name_nft = str(request.user.first_name) + " " + str(request.user.last_name)
+        description_nft = " The Prdouct is "+ str(product.title) + " and order id is " + str(p_id) + " with " + str(product.warranty_in_months) + " months warranty" 
         image_nft = product.img
-        prop = " Buyed on " + str(product_buy.ordered_date)
+        prop = "Warranty of " + str(product.warranty_in_months) + " Months" + " Buyed on " + datee
         metadata = NFTMetadataInput.from_json({
             'name': name_nft,
             'description': description_nft,
