@@ -4,3 +4,4 @@ from .models import *
 admin.site.register(products)
 admin.site.register(orders)
 admin.site.register(nfts)
+admin.site.register(wallet_details)

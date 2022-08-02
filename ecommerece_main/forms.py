@@ -17,6 +17,11 @@ class UpdateUserDetails(forms.ModelForm):
         model = User
         fields = ['first_name','last_name','email',]
 
+class wallet_address_form(forms.ModelForm):
+    class Meta:
+        model = wallet_details
+        fields = ['wallet_address',]
+
 # class product_buy(forms.ModelForm):
 #     class Meta:
 #         model = orders

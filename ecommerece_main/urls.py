@@ -4,6 +4,7 @@ from ecommerece_main import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('account', views.profile, name='account'),
+    path('submit_wallet_adress', views.submit_wallet_adress, name='submit_wallet_adress'),
     path('signup', views.signup, name='signup'),
     path('login', views.login, name='login'),
     path('warranty_nfts',views.nftinfo, name='nfts'),

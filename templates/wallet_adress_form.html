@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -33,7 +34,6 @@
               <a class="nav-link" href="{% url 'account'%}" >welcome {{user.first_name}}</a> 
             </li>
             <li class="nav-item ">
-            <a class="nav-item nav-link active" href="{% url 'submit_wallet_adress' %}">Wallet Adress <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link active" href="{% url 'order' user.username%}">Orders <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link active" href="{% url 'nfts' %}">Your warrant nfts <span class="sr-only">(current)</span></a>
             <form method="post" action="{% url 'logoutuser' %}">
@@ -52,22 +52,16 @@
           </div>
         </div>
       </nav>
-    <h1 class="text-center"> Products </h1>
-    <div class="container">
-        <div class="row mt-20">
-        {% for i in products_list %}
-        <div class="card h-60" style="width: 15rem;">
-            <img src="{{ i.img }}" class="card-img-top w-50 p-2" alt="...">
-            <div class="card-body">
-            <h5 class="card-title">{{ i.title|slice:'15' }}..</h5>
-            <p class="card-text">{{ i.desc|slice:'30' }}..</p>
-            <a href="product/{{i.product_id}}" class="btn btn-primary">Buy now</a>
-            </div>
-        </div>
-        <br>
-        {% endfor%}
-        </div>
-    </div>
+    <h1 class="text-center"> Fill this form to Purchase items </h1>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div class="container">
+           {{form|crispy}}
+          <div class="container-submit" padding = "5px">
+         <button type="submit" class="btn btn-primary">Add</button>
+         </div>
+         </div>
+    </form>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -23,16 +23,13 @@ from thirdweb.types.nft import NFTMetadataInput
 def profile(request):
     p = orders.objects.filter(user=request.user)
     l=len(p)
-    print(l,",,,,,,,,,,,,,,,,,,,,,,,,,<<<<<<<<<<<<<<<<<<<<")
     if(l==0):
         ord = orders.objects.filter(user=request.user)
     else:
         ord = orders.objects.filter(user=request.user)[l-1]
-    print(ord)
     return render(request, 'user_page.html',{'ord':ord})
 def nftinfo(request):
-    x=  nfts.objects.filter(user=request.user)
-    # nt = x.values_list('token_id', flat=True)    
+    x=  nfts.objects.filter(user=request.user)  
     return render(request, "nfts.html",{'x':x})
 
 def nftdetails(request,tokenid):
@@ -68,6 +65,16 @@ def signup(request):
     context = {'form': form, 'signupsucess': 'Congratulation you are logged in with successful signup process'}
     return render (request, 'registration.html', context )
 
+def submit_wallet_adress(request):
+    user = request.user
+    if request.method=="POST":
+        form = wallet_address_form(request.POST)
+        if form.is_valid():
+            addjob      = form.save(commit=False)
+            addjob.user = user
+            addjob.save()
+    return render (request,'wallet_adress_form.html',{'form':wallet_address_form()})
+            
 def login(request):
     
     if request.method == 'POST':
@@ -98,8 +105,10 @@ def order(request,username):
 
 def product_page(request,product_id):
     product = products.objects.get(product_id=product_id)
-    # print("xxxxxxxxxxxxxxxxx", product.title)
+    wa = wallet_details.objects.get(user=request.user)
     if request.method=="POST":
+        wobj = wa.wallet_address
+        wallet_ad = str(wobj)
         product_buy=orders.objects.create(user=request.user, product_buyed=product)
         product_buy.save()
         date = str(product_buy.ordered_date)
@@ -115,11 +124,14 @@ def product_page(request,product_id):
             'image': image_nft,
             'properties':prop
         })
-        tx = nft_collection.mint_to("0xF1226E9751773806993fb597498a04714e717dFD", metadata)
+        tx = nft_collection.mint_to(wallet_ad, metadata)
         receipt = tx.receipt
         token_id = tx.id
         nft = tx.data()
+        # to = "0xF1226E9751773806993fb597498a04714e717dFD"
+        # token_i = token_id
+        # receipt = nft_collection.transfer(to, token_i)
         nfts.objects.create(user=request.user,product_buy=product,token_id=token_id,nft=nft)
-        print(nft, " <----xx^^^^^^^^^^^^^^^^^^^^^^^^^xxxxnnnnnnnnnnn^^^^^^^^^^^^^^^^^^^^^^^^^^xxxxxxxxxxxxxxxxx-----> ")
+        # print(nft, " <----xx^^^^^^^^^^^^^^^^^^^^^^^^^xxxxnnnnnnnnnnn^^^^^^^^^^^^^^^^^^^^^^^^^^xxxxxxxxxxxxxxxxx-----> ")
         return redirect(reverse('order', kwargs={'username': request.user.username}))
-    return render(request, 'product_page.html',{'product':product})
+    return render(request, 'product_page.html',{'product':product},)

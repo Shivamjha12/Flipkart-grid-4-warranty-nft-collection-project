@@ -11,7 +11,10 @@ class Createuserform(UserCreationForm):
     def fullname(self):
         fullname = self.first_name + ' ' + self.last_name
         return fullname
-
+class wallet_details(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    wallet_address = models.CharField(max_length=42,blank=False)
+    
 class products(models.Model):
     seller = models.EmailField(null=False, blank=False)
     title = models.CharField(max_length=100)
